@@ -35,7 +35,6 @@ public class Parking {
             arrayCoches[i].start();
 
         }
-          
 
     }
 

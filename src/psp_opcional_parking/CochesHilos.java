@@ -19,9 +19,10 @@ public class CochesHilos extends Thread {
 
         super(nombre);
         this.objM = objM;
-       
 
     }
+    
+    
 
     //GETTERS Y SETTERS DE LA POS
     public void setPos(int pos) {

@@ -13,11 +13,11 @@ public class MonitorParking extends CochesHilos {
     private int numPlazas = Parking.numPlazas;
     private int plazasArray = numPlazas;
     private Integer[] arrayPlazas = new Integer[plazasArray];
-    //lo usaremos como contador
+    //lo usaremos como contador (el contador se muestra correctamente, pero el array en las salidas??)
     private int contP = numPlazas;
     private Boolean acceso = true;
     //para guardar la posición donde se aparcó el coche
-    private int pos = 0;
+    //private int pos = 0;
 
     public MonitorParking() {
 
