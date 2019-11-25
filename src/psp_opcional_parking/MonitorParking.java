@@ -95,6 +95,7 @@ public class MonitorParking extends CochesHilos {
         acceso = true;
         notifyAll();
 
+        //iniciar en entrada el propio método de salida para poder pasarle el parámetro de pos??
     }
 
     public synchronized void salida(String nombreC) {
