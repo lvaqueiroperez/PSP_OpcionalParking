@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 public class CochesHilos extends Thread {
 
     private MonitorParking objM;
-    //posición del parking:
+    //CÓMO HACER UN SET/GET DESDE UNA CLASE EXTERNA?
     private int pos;
 
     //Constructor sin parámetros
@@ -25,11 +25,11 @@ public class CochesHilos extends Thread {
     
 
     //GETTERS Y SETTERS DE LA POS
-    public void setPos(int pos) {
+    public synchronized void setPos(int pos) {
         this.pos = pos;
     }
 
-    public int getPos() {
+    public synchronized int getPos() {
         return pos;
     }
 

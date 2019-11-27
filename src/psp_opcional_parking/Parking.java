@@ -17,7 +17,7 @@ public class Parking {
     public void crearHilos() {
         //Objeto para que accedan a la misma clase
         MonitorParking objM = new MonitorParking();
-        //Inicializamos el array !!!
+        //Inicializamos el array poniendo 0 en todas sus celdas !!!
         objM.inicializarArray();
         //array para ir creando y almacenando los hilos
         CochesHilos[] arrayCoches = new CochesHilos[numCoches];
@@ -25,7 +25,7 @@ public class Parking {
         for (int i = 0; i < numCoches; i++) {
 
             //DUDA: Hilo que cree otro hilo ó Array que almacene primero los hilos y 
-            //luego los inicie? (hecho de la segunda manera)
+            //luego los inicie? (hecho de la segunda manera,parece que funciona)
             arrayCoches[i] = new CochesHilos("COCHE " + i, objM);
 
         }

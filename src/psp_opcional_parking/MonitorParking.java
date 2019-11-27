@@ -78,7 +78,7 @@ public class MonitorParking extends CochesHilos {
             if (arrayPlazas[i] == 0) {
 
                 arrayPlazas[i] = 1;
-                //guardamos su posición
+                //guardamos su posición (?)
                 super.setPos(i);
                 System.out.println("ENTRADA: " + nombreC + " aparca en plaza " + i);
                 contP--;
@@ -116,7 +116,8 @@ public class MonitorParking extends CochesHilos {
         //PROBLEMA: COMO ALMACENAR LA POSICIÓN? YA QUE ES UNA VARIABLE TAMBIÉN COMPARTIDA POR TODOS
         //PODEMOS HACER QUE CADA HILO TENGA SU VARIABLE DE POSICIÓN?
         //NECESITO UNA REFERENCIA AL HILO EJECUTANDO ESTE MÉTODO
-        arrayPlazas[super.getPos()] = 0;
+        int posGet = super.getPos();
+        arrayPlazas[posGet] = 0;
         contP++;
         System.out.println("PLAZAS LIBRES: " + contP);
         System.out.println("PARKING:");
