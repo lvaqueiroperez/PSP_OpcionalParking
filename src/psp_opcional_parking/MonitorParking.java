@@ -17,7 +17,7 @@ public class MonitorParking extends CochesHilos {
     private int contP = numPlazas;
     private Boolean acceso = true;
     //para guardar la posición donde se aparcó el coche
-    //private int pos = 0;
+    private int pos = 0;
 
     public MonitorParking() {
 
@@ -59,7 +59,7 @@ public class MonitorParking extends CochesHilos {
     }
 
     //
-    public synchronized void entrada(String nombreC) {
+    public synchronized Integer entrada(String nombreC) {
 
         while (!acceso) {
 
@@ -86,6 +86,7 @@ public class MonitorParking extends CochesHilos {
                 System.out.println("PARKING: ");
                 mostrarArray();
                 //salimos del for
+                pos = i;
                 break;
 
             }
@@ -94,11 +95,12 @@ public class MonitorParking extends CochesHilos {
 
         acceso = true;
         notifyAll();
+        return pos;
 
         //iniciar en entrada el propio método de salida para poder pasarle el parámetro de pos??
     }
 
-    public synchronized void salida(String nombreC) {
+    public synchronized void salida(String nombreC, int posicion) {
 
         while (!acceso) {
 
@@ -116,8 +118,8 @@ public class MonitorParking extends CochesHilos {
         //PROBLEMA: COMO ALMACENAR LA POSICIÓN? YA QUE ES UNA VARIABLE TAMBIÉN COMPARTIDA POR TODOS
         //PODEMOS HACER QUE CADA HILO TENGA SU VARIABLE DE POSICIÓN?
         //NECESITO UNA REFERENCIA AL HILO EJECUTANDO ESTE MÉTODO
-        int posGet = super.getPos();
-        arrayPlazas[posGet] = 0;
+        
+        arrayPlazas[posicion] = 0;
         contP++;
         System.out.println("PLAZAS LIBRES: " + contP);
         System.out.println("PARKING:");

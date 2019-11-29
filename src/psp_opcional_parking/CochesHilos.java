@@ -43,13 +43,13 @@ public class CochesHilos extends Thread {
             Logger.getLogger(CochesHilos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        objM.entrada(getName());
+        pos = objM.entrada(getName());
         try {
             sleep(2000);
         } catch (InterruptedException ex) {
             Logger.getLogger(CochesHilos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        objM.salida(getName());
+        objM.salida(getName(),pos);
 
     }
 
