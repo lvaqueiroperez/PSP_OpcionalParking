@@ -4,7 +4,7 @@ public class PSP_Opcional_Parking {
 
     public static void main(String[] args) {
 
-        Parking objP = new Parking(6, 6);
+        Parking objP = new Parking(6, 10);
 
         objP.crearHilos();
 

@@ -3,10 +3,11 @@ package psp_opcional_parking;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//CLASE DE HILOS
 public class CochesHilos extends Thread {
 
     private MonitorParking objM;
-    //CÓMO HACER UN SET/GET DESDE UNA CLASE EXTERNA?
+    //DUDA: CÓMO HACER UN SET/GET DE UN HILO DESDE UNA CLASE EXTERNA?
     private int pos;
 
     //Constructor sin parámetros
@@ -21,10 +22,10 @@ public class CochesHilos extends Thread {
         this.objM = objM;
 
     }
-    
-    
 
-    //GETTERS Y SETTERS DE LA POS
+    //GETTERS Y SETTERS DE LA POS 
+    //(no podemos poner/obtener un valor desde un setter/getter cuando trabajamos con hilos)
+    //en cambio, si usamos clases que retornen valores parece que sí que funciona
     public synchronized void setPos(int pos) {
         this.pos = pos;
     }
@@ -38,18 +39,22 @@ public class CochesHilos extends Thread {
 
         System.out.println("HILO CREADO: " + getName());
         try {
+
             sleep(2000);
         } catch (InterruptedException ex) {
             Logger.getLogger(CochesHilos.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        //RECOGEMOS LA POSICIÓN EN EL ARRAY DEL PARKING A TRAVÉS DE UN RETURN EN EL MÉTODO
+        //DE "ENTRADA"
         pos = objM.entrada(getName());
         try {
-            sleep(2000);
+            //tiempo de espera para salir aleatorio
+            sleep((int) Math.floor(Math.random() * (5000 - 1000 + 1) + (1000)));
         } catch (InterruptedException ex) {
             Logger.getLogger(CochesHilos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        objM.salida(getName(),pos);
+        //PONEMOS LA POSICIÓN EN EL PARKING EN ESE HILO DE VUELTA COMO PARÁMETRO DEL MÉTODO "SALIDA"
+        objM.salida(getName(), pos);
 
     }
 

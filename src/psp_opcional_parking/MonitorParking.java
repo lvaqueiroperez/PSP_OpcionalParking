@@ -4,16 +4,18 @@ import java.lang.reflect.Array;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//CLASE MONITOR 
 //EL ARRAY CON LAS PLAZAS SERÁ EL RECURSO COMPARTIDO
 //SOLO SE ADMITE UNA ENTRADA Y UNA SALIDA A LA VEZ
 //se supone que hay un método para entrar y otro para salir, de manera que 
 //ambos métodos se llaman en la clase de los hilos separados por un sleep()
-public class MonitorParking extends CochesHilos {
+public class MonitorParking {
 
     private int numPlazas = Parking.numPlazas;
     private int plazasArray = numPlazas;
-    private Integer[] arrayPlazas = new Integer[plazasArray];
-    //lo usaremos como contador (el contador se muestra correctamente, pero el array en las salidas??)
+    //Hacemos el Array Parking "String" para poder acceder a los nombres de los "hilos coche"
+    private String[] arrayParking = new String[plazasArray];
+    //lo usaremos como contador y como "semáforo" para el acceso de los hilos al recurso compartido)
     private int contP = numPlazas;
     private Boolean acceso = true;
     //para guardar la posición donde se aparcó el coche
@@ -23,45 +25,34 @@ public class MonitorParking extends CochesHilos {
 
     }
 
-    //Constructor para que funcione la herencia
-    public MonitorParking(String nombre, MonitorParking objM) {
-        super(nombre, objM);
-    }
-
-    //constructor
-//    public MonitorParking(int numPlazas){
-//        
-//        this.numPlazas = numPlazas;
-//        
-//    }
     //A este método accederán varios hilos a la vez
     //también le hace falta ser synchronized
     public synchronized void mostrarArray() {
 
-        //arrayPlazas[0] = 0;
-        for (int i = 0; i < arrayPlazas.length; i++) {
+        for (int i = 0; i < arrayParking.length; i++) {
 
-            System.out.print("[" + arrayPlazas[i] + "]");
+            System.out.print("[" + arrayParking[i] + "]");
 
         }
         System.out.println("\n");
 
     }
 
+    //Para inicializar el array con valores "0"
     public void inicializarArray() {
 
-        for (int i = 0; i < arrayPlazas.length; i++) {
+        for (int i = 0; i < arrayParking.length; i++) {
 
-            arrayPlazas[i] = 0;
+            arrayParking[i] = "0";
 
         }
 
     }
 
-    //
     public synchronized Integer entrada(String nombreC) {
 
-        while (!acceso) {
+        //COMPROBAMOS QUE HAYA PLAZAS LIBRES
+        while (contP == 0) {
 
             try {
                 wait();
@@ -71,21 +62,19 @@ public class MonitorParking extends CochesHilos {
 
         }
 
-        acceso = false;
         //recorremos el array en busca de sitios libres (0)
-        for (int i = 0; i < arrayPlazas.length; i++) {
+        for (int i = 0; i < arrayParking.length; i++) {
 
-            if (arrayPlazas[i] == 0) {
+            if (arrayParking[i] == "0") {
 
-                arrayPlazas[i] = 1;
-                //guardamos su posición (?)
-                super.setPos(i);
+                arrayParking[i] = nombreC;
+
                 System.out.println("ENTRADA: " + nombreC + " aparca en plaza " + i);
                 contP--;
                 System.out.println("PLAZAS LIBRES: " + contP);
                 System.out.println("PARKING: ");
                 mostrarArray();
-                //salimos del for
+                //salimos del for y guardamos la posición del coche en el array
                 pos = i;
                 break;
 
@@ -93,39 +82,25 @@ public class MonitorParking extends CochesHilos {
 
         }
 
-        acceso = true;
-        notifyAll();
         return pos;
 
-        //iniciar en entrada el propio método de salida para poder pasarle el parámetro de pos??
     }
 
+    //Recogemos la posición del coche que va a salir del el array como parámetro
     public synchronized void salida(String nombreC, int posicion) {
-
-        while (!acceso) {
-
-            try {
-                wait();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MonitorParking.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-        acceso = false;
 
         System.out.println("SALIDA: " + nombreC + " saliendo");
         //PROBLEMA: COMO ALMACENAR LA POSICIÓN? YA QUE ES UNA VARIABLE TAMBIÉN COMPARTIDA POR TODOS
         //PODEMOS HACER QUE CADA HILO TENGA SU VARIABLE DE POSICIÓN?
         //NECESITO UNA REFERENCIA AL HILO EJECUTANDO ESTE MÉTODO
-        
-        arrayPlazas[posicion] = 0;
+
+        arrayParking[posicion] = "0";
         contP++;
         System.out.println("PLAZAS LIBRES: " + contP);
         System.out.println("PARKING:");
         mostrarArray();
 
-        acceso = true;
+        //NOTIFICAMOS DE QUE HAY UNA NUEVA PLAZA DISPONIBLE
         notifyAll();
 
     }
