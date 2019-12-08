@@ -15,9 +15,8 @@ public class MonitorParking {
     private int plazasArray = numPlazas;
     //Hacemos el Array Parking "String" para poder acceder a los nombres de los "hilos coche"
     private String[] arrayParking = new String[plazasArray];
-    //lo usaremos como contador y como "semáforo" para el acceso de los hilos al recurso compartido)
+    //(lo usaremos como contador y como "semáforo" para el acceso de los hilos al recurso compartido)
     private int contP = numPlazas;
-    private Boolean acceso = true;
     //para guardar la posición donde se aparcó el coche
     private int pos = 0;
 
@@ -72,6 +71,7 @@ public class MonitorParking {
                 System.out.println("ENTRADA: " + nombreC + " aparca en plaza " + i);
                 contP--;
                 System.out.println("PLAZAS LIBRES: " + contP);
+                //mostramos el parking
                 System.out.println("PARKING: ");
                 mostrarArray();
                 //salimos del for y guardamos la posición del coche en el array
@@ -90,9 +90,6 @@ public class MonitorParking {
     public synchronized void salida(String nombreC, int posicion) {
 
         System.out.println("SALIDA: " + nombreC + " saliendo");
-        //PROBLEMA: COMO ALMACENAR LA POSICIÓN? YA QUE ES UNA VARIABLE TAMBIÉN COMPARTIDA POR TODOS
-        //PODEMOS HACER QUE CADA HILO TENGA SU VARIABLE DE POSICIÓN?
-        //NECESITO UNA REFERENCIA AL HILO EJECUTANDO ESTE MÉTODO
 
         arrayParking[posicion] = "0";
         contP++;

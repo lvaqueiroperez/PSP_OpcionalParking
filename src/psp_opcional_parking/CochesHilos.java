@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 public class CochesHilos extends Thread {
 
     private MonitorParking objM;
-    //DUDA: CÓMO HACER UN SET/GET DE UN HILO DESDE UNA CLASE EXTERNA?
+
     private int pos;
 
     //Constructor sin parámetros
@@ -24,7 +24,7 @@ public class CochesHilos extends Thread {
     }
 
     //GETTERS Y SETTERS DE LA POS 
-    //(no podemos poner/obtener un valor desde un setter/getter cuando trabajamos con hilos)
+    //(no deja poner/obtener un valor desde un setter/getter cuando trabajamos con hilos)
     //en cambio, si usamos clases que retornen valores parece que sí que funciona
     public synchronized void setPos(int pos) {
         this.pos = pos;
